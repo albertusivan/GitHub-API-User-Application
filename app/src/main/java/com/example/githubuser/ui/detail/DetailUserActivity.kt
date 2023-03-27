@@ -3,6 +3,7 @@ package com.example.githubuser.ui.detail
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.githubuser.databinding.ActivityDetailUserBinding
@@ -33,6 +34,8 @@ class DetailUserActivity : AppCompatActivity() {
         if (username != null) {
             viewModel.setUserDetail(username)
         }
+
+        showLoading(true)
         viewModel.getUserDetail().observe(this) {
             if (it != null) {
                 binding.apply {
@@ -41,6 +44,7 @@ class DetailUserActivity : AppCompatActivity() {
                     tvFollowers.text = "${it.followers} Followers"
                     tvFollowing.text = "${it.following} Following"
                     Glide.with(this@DetailUserActivity).load(it.avatar_url).into(ivProfile)
+                    showLoading(false)
                 }
             }
         }
@@ -49,6 +53,13 @@ class DetailUserActivity : AppCompatActivity() {
         binding.apply {
             viewPager.adapter = sectionPagerAdapter
             tabs.setupWithViewPager(viewPager)
+        }
+    }
+    private fun showLoading(state: Boolean){
+        if(state){
+            binding.progressBar.visibility = View.VISIBLE
+        }else{
+            binding.progressBar.visibility = View.GONE
         }
     }
 }
