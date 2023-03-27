@@ -28,7 +28,7 @@ interface ApiService {
         @Path("username") username: String
     ): Call<ArrayList<User>>
 
-    @GET("user/{username}/following")
+    @GET("users/{username}/following")
     @Headers("Authorization: token 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")
     fun getFollowing(
         @Path("username") username: String
