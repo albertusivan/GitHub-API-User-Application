@@ -7,5 +7,6 @@ import androidx.room.PrimaryKey
 data class FavoriteUser(
     val login: String,
     @PrimaryKey
-    val id: Int
+    val id: Int,
+    val avatar_url: String
 ):java.io.Serializable
