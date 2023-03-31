@@ -1,6 +1,7 @@
 package com.example.githubuser.ui.main
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,6 +9,10 @@ import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubuser.R
@@ -15,7 +20,9 @@ import com.example.githubuser.data.model.User
 import com.example.githubuser.databinding.ActivityMainBinding
 import com.example.githubuser.ui.detail.DetailUserActivity
 import com.example.githubuser.ui.favorite.FavoriteActivity
+import com.example.githubuser.ui.settings.*
 
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
@@ -27,6 +34,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val pref = SettingPreferences.getInstance(dataStore)
+        val mainViewModel = ViewModelProvider(this, ViewModelFactory(pref)).get(
+            SettingViewModel::class.java
+        )
+
+        mainViewModel.getThemeSettings().observe(this) { isDarkModeActive: Boolean ->
+            if (isDarkModeActive) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
 
         adapter = UserAdapter()
         adapter.notifyDataSetChanged()
@@ -99,7 +119,14 @@ class MainActivity : AppCompatActivity() {
                     startActivity(it)
                 }
             }
+            R.id.settings -> {
+                Intent(this,darkMode::class.java).also {
+                    startActivity(it)
+                }
+            }
         }
         return super.onOptionsItemSelected(item)
     }
+
+
 }
