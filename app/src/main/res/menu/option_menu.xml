@@ -6,4 +6,9 @@
         android:title="@string/favorite"
         android:icon="@drawable/ic_heart_white"
         app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/settings"
+        android:title="@string/settings"
+        app:showAsAction="never"/>
 </menu>

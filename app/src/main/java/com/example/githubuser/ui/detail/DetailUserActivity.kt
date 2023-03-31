@@ -14,11 +14,6 @@ import kotlinx.coroutines.withContext
 
 class DetailUserActivity : AppCompatActivity() {
 
-    companion object{
-        const val EXTRA_USERNAME = "extra_username"
-        const val EXTRA_ID = "extra_id"
-        const val EXTRA_URL = "extra_url"
-    }
 
     private lateinit var binding: ActivityDetailUserBinding
     private lateinit var viewModel: DetailUserViewModel
@@ -99,5 +94,11 @@ class DetailUserActivity : AppCompatActivity() {
         }else{
             binding.progressBar.visibility = View.GONE
         }
+    }
+
+    companion object{
+        const val EXTRA_USERNAME = "extra_username"
+        const val EXTRA_ID = "extra_id"
+        const val EXTRA_URL = "extra_url"
     }
 }
